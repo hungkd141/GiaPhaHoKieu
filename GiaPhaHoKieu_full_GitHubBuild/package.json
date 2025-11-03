@@ -1,0 +1,35 @@
+{
+  "name": "gia-pha-ho-kieu",
+  "version": "1.0.0",
+  "description": "Gia Phả Họ Kiều - Desktop (Setup EXE build ready)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^23.0.0"
+  },
+  "build": {
+    "appId": "com.giapha.hokieu",
+    "productName": "Gia Pha Họ Kiều",
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "app.js",
+      "assets/**"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}

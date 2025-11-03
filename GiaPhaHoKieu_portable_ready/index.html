@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Gia Phả Họ Kiều</title>
+<style>
+:root{--bg:#fff6f0;--maroon:#7b2b2b;--gold:#c79c4b;--muted:#6b3c12}
+body{margin:0;font-family:Georgia, 'Times New Roman', serif;background:var(--bg);color:var(--maroon)}
+header{background:linear-gradient(90deg,#fff8f2,#f9efe6);padding:14px;border-bottom:3px solid rgba(199,156,75,0.15);display:flex;align-items:center;gap:12px}
+header h1{margin:0;font-size:20px;color:var(--maroon);letter-spacing:1px}
+.nav{margin-left:20px;display:flex;gap:10px;align-items:center}
+.tab{background:transparent;border:0;padding:8px 10px;border-radius:6px;cursor:pointer;color:var(--maroon);font-weight:700}
+.tab.active{background:linear-gradient(90deg,#f7ece0,#fff4ea);box-shadow:inset 0 -2px 0 rgba(199,156,75,0.12)}
+.container{display:grid;grid-template-columns:360px 1fr;gap:12px;padding:12px}
+.card{background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(199,156,75,0.08)}
+.tree-area{padding:12px;overflow:auto;height:72vh;border-radius:8px;background:linear-gradient(180deg,#fffdf9,#fff7f0);border:1px solid rgba(199,156,75,0.06)}
+.footer{padding:10px;text-align:center;color:var(--muted)}
+
+/* Giới thiệu họ tộc */
+.intro{position:relative;padding:24px;border-radius:8px;background:rgba(255,255,255,0.8);min-height:260px}
+.paper{position:absolute;inset:0;background-image: url('assets/paper.svg');background-size:cover;opacity:0.18;border-radius:8px;pointer-events:none}
+.intro .content{position:relative;z-index:2}
+.controls{margin-top:12px;display:flex;gap:8px;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div style="width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--maroon));display:flex;align-items:center;justify-content:center;color:white;font-weight:800">GP</div>
+  <div>
+    <h1>Gia Phả Họ Kiều</h1>
+    <div style="font-size:12px;color:var(--muted)">Ứng dụng gia phả offline — phong cách truyền thống.</div>
+  </div>
+  <div class="nav" role="tablist" aria-label="Main">
+    <button class="tab active" data-tab="home">Trang chủ</button>
+    <button class="tab" data-tab="tree">Cây gia phả</button>
+    <button class="tab" data-tab="intro">Giới thiệu họ tộc</button>
+  </div>
+</header>
+
+<main id="mainArea" style="padding:12px">
+  <section id="home" class="card" role="tabpanel">
+    <h2>Trang chủ</h2>
+    <p class="small">Chào mừng đến với ứng dụng <strong>Gia Phả Họ Kiều</strong>. Mở tab Cây gia phả để xem và chỉnh sửa thành viên.</p>
+    <div style="margin-top:12px"><button id="btnLoadSample">Tải dữ liệu mẫu</button></div>
+  </section>
+
+  <section id="tree" class="card hidden" role="tabpanel" aria-hidden>
+    <div class="container">
+      <aside class="card" style="padding:10px">
+        <label>Tìm / Thêm</label>
+        <div style="margin-top:8px"><input id="memberName" placeholder="Họ và tên" /></div>
+        <div style="display:flex;gap:8px;margin-top:8px"><input id="memberBirth" type="date"/><input id="memberDeath" type="date"/></div>
+        <select id="memberParent" style="margin-top:8px"><option value=''>Không/Root</option></select>
+        <textarea id="memberNote" rows="2" placeholder="Ghi chú..." style="margin-top:8px"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px"><button id="btnAdd">Thêm</button><button id="btnExportJson" class="tab">Xuất JSON</button><input id="fileImport" type="file" accept="application/json" class="hidden"></div>
+      </aside>
+      <main class="card">
+        <div style="font-weight:700">Phả đồ</div>
+        <div style="margin-top:8px" id="treeRoot" class="tree-area"></div>
+      </main>
+    </div>
+  </section>
+
+  <section id="intro" class="card hidden" role="tabpanel" aria-hidden>
+    <div class="paper"></div>
+    <div class="intro">
+      <div class="content">
+        <h2>Giới thiệu họ tộc</h2>
+        <div id="introText">
+          <p><strong>Họ Kiều – Dòng họ truyền thống Việt Nam</strong></p>
+          <p>Nguồn gốc tổ tiên từ thời xa xưa, lấy chữ “Hiếu – Nghĩa – Trung – Tín” làm nền tảng.</p>
+          <p>Các thế hệ con cháu nối tiếp giữ gìn gia phong, phát triển công đức tổ tiên.</p>
+          <p>Trụ sở từ đường: Làng ..., Xã ..., Huyện ..., Tỉnh ...</p>
+        </div>
+        <div class="controls">
+          <button id="btnEditIntro" class="tab">🖋 Sửa thông tin</button>
+          <button id="btnSaveIntro" class="tab hidden">Lưu</button>
+          <button id="btnToggleMusic" class="tab">Âm nhạc: Bật</button>
+          <div class="small">Âm nhạc: sáo trúc & đàn bầu luân phiên (có thể tắt)</div>
+        </div>
+        <textarea id="introEditor" class="hidden" style="width:100%;height:120px;margin-top:8px"></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Gia Phả Họ Kiều — Bản portable</footer>
+
+<!-- Audio elements (wav files included in assets) -->
+<audio id="sao" src="assets/sao_truc.wav" preload="auto"></audio>
+<audio id="dan" src="assets/dan_bau.wav" preload="auto"></audio>
+
+<script>
+// Tab navigation
+document.querySelectorAll('.tab').forEach(btn=> btn.addEventListener('click', ()=>{
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const tab = btn.getAttribute('data-tab');
+  document.querySelectorAll('main section').forEach(s=>{ s.classList.add('hidden'); s.setAttribute('aria-hidden','true'); });
+  const sel = document.getElementById(tab);
+  if(sel){ sel.classList.remove('hidden'); sel.removeAttribute('aria-hidden'); }
+  if(tab === 'intro'){ playRandomMusic(); }
+}));
+
+// Simple data store
+const STORAGE_KEY = 'giaPhaHoKieu_v1';
+let members = {};
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(members)); }
+function load(){ const raw = localStorage.getItem(STORAGE_KEY); if(raw) members = JSON.parse(raw); else members = {}; }
+function uid(){ return 'm'+Math.random().toString(36).slice(2,9); }
+function rebuildChildren(){ Object.values(members).forEach(m=>m.children=[]); Object.values(members).forEach(m=>{ if(m.parent){ const p = members[m.parent]; if(p) p.children = p.children || [], p.children.push(m.id); } }); }
+
+function renderList(){ const parentSel = document.getElementById('memberParent'); parentSel.innerHTML = '<option value="">Không/Root</option>'; Object.values(members).sort((a,b)=> (a.name||'').localeCompare(b.name||'')).forEach(m=>{ const opt = document.createElement('option'); opt.value = m.id; opt.textContent = m.name; parentSel.appendChild(opt); }); }
+function computeLayout(){ rebuildChildren(); const nodes = {}; const roots = Object.values(members).filter(m=>!m.parent).map(m=>m.id); function measure(id){ const m = members[id]; const w = Math.max(140, (m.name||'').length*8+30); let total = 0; const childObjs = []; const children = (m.children||[]).slice(); children.sort((a,b)=> (members[a].name||'').localeCompare(members[b].name||'')); if(children.length == 0) total = w; else { children.forEach(cid=>{ const c = measure(cid); childObjs.push(c); total += c.total + 30; }); total = Math.max(total - 30, w); } const obj = {id,w,childObjs,total}; nodes[id] = obj; return obj; } const measured = roots.map(r=>measure(r)); let cursor = 20; function assign(obj,x0,depth){ const x = x0 + (obj.total - obj.w)/2; const y = depth*140 + 20; nodes[obj.id].x = Math.round(x); nodes[obj.id].y = Math.round(y); let cx = x0; obj.childObjs.forEach(ch=>{ assign(ch,cx,depth+1); cx += ch.total + 30; }); } measured.forEach(m=>{ assign(m,cursor,0); cursor += m.total + 60; }); const all = Object.values(nodes); const width = Math.max(800, all.reduce((a,b)=>Math.max(a,b.x + b.w),0)+40); const height = Math.max(400, all.reduce((a,b)=>Math.max(a,b.y + 100),0)+40); return {nodes,width,height}; }
+function buildSvg(layout){ const svgns = 'http://www.w3.org/2000/svg'; const svg = document.createElementNS(svgns,'svg'); svg.setAttribute('xmlns',svgns); svg.setAttribute('width',layout.width); svg.setAttribute('height',layout.height); svg.setAttribute('viewBox',`0 0 ${layout.width} ${layout.height}`); Object.values(layout.nodes).forEach(n=>{ const m = members[n.id]; if(m.parent && layout.nodes[m.parent]){ const p = layout.nodes[m.parent]; const x1 = p.x + p.w/2; const y1 = p.y + 70; const x2 = n.x + n.w/2; const y2 = n.y; const path = document.createElementNS(svgns,'path'); path.setAttribute('d',`M ${x1} ${y1} C ${x1} ${(y1+y2)/2} ${x2} ${(y1+y2)/2} ${x2} ${y2}`); path.setAttribute('stroke','#e6c79c'); path.setAttribute('fill','none'); path.setAttribute('stroke-width','2'); svg.appendChild(path); } }); Object.values(layout.nodes).forEach(n=>{ const m = members[n.id]; const g = document.createElementNS(svgns,'g'); g.setAttribute('transform',`translate(${n.x},${n.y})`); const rect = document.createElementNS(svgns,'rect'); rect.setAttribute('width',n.w); rect.setAttribute('height',90); rect.setAttribute('rx',10); rect.setAttribute('fill','#fff7f0'); rect.setAttribute('stroke','#e6c79c'); rect.setAttribute('stroke-width',1.5); g.appendChild(rect); const tx = document.createElementNS(svgns,'text'); tx.setAttribute('x',12); tx.setAttribute('y',30); tx.setAttribute('font-size',16); tx.setAttribute('font-weight',700); tx.setAttribute('fill','#7b2b2b'); tx.textContent = m.name; g.appendChild(tx); const tx2 = document.createElementNS(svgns,'text'); tx2.setAttribute('x',12); tx2.setAttribute('y',52); tx2.setAttribute('font-size',12); tx2.setAttribute('fill','#6b3c12'); tx2.textContent = `${m.birth||''} ${m.notes?'- '+m.notes:''}`; g.appendChild(tx2); svg.appendChild(g); }); return svg; }
+function renderTree(){ const layout = computeLayout(); const svg = buildSvg(layout); const root = document.getElementById('treeRoot'); root.innerHTML = ''; root.appendChild(svg); }
+
+// Add/edit members
+document.getElementById('btnAdd').addEventListener('click', ()=>{
+  const name = document.getElementById('memberName').value.trim();
+  if(!name){ alert('Nhập tên'); return; }
+  const id = uid();
+  const parent = document.getElementById('memberParent').value||'';
+  members[id] = { id, name, birth: document.getElementById('memberBirth').value||'', parent, notes: document.getElementById('memberNote').value||'' };
+  save(); renderList(); renderTree();
+  document.getElementById('memberName').value=''; document.getElementById('memberNote').value='';
+});
+
+document.getElementById('btnExportJson').addEventListener('click', ()=>{
+  const dataStr = JSON.stringify(members,null,2);
+  const blob = new Blob([dataStr],{type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'gia-pha-ho-kieu.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById('fileImport').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = ev=>{ try{ const parsed = JSON.parse(ev.target.result); if(typeof parsed === 'object'){ members = parsed; save(); renderList(); renderTree(); alert('Nhập JSON thành công'); } else alert('File JSON không hợp lệ'); }catch(err){ alert('Lỗi đọc file: '+err.message);} }; r.readAsText(f);
+});
+
+// Intro edit
+document.getElementById('btnEditIntro').addEventListener('click', ()=>{
+  const editor = document.getElementById('introEditor'); editor.value = document.getElementById('introText').innerText.trim(); editor.classList.remove('hidden');
+  document.getElementById('btnSaveIntro').classList.remove('hidden');
+  document.getElementById('btnEditIntro').classList.add('hidden');
+});
+document.getElementById('btnSaveIntro').addEventListener('click', ()=>{
+  const editor = document.getElementById('introEditor'); document.getElementById('introText').innerHTML = editor.value.replace(/\n/g,'<br>'); editor.classList.add('hidden'); document.getElementById('btnSaveIntro').classList.add('hidden'); document.getElementById('btnEditIntro').classList.remove('hidden');
+  localStorage.setItem('giaPhaIntro', document.getElementById('introText').innerHTML);
+});
+
+// Music control: play random sao||dan when entering intro tab
+const sao = document.getElementById('sao'); const dan = document.getElementById('dan'); let musicOn = true;
+function playRandomMusic(){
+  if(!musicOn) return;
+  try{ sao.pause(); dan.pause(); sao.currentTime = 0; dan.currentTime = 0; }catch(e){}
+  const choose = Math.random() < 0.5 ? 'sao' : 'dan';
+  if(choose === 'sao'){ sao.play().catch(()=>{}); } else { dan.play().catch(()=>{}); }
+  document.getElementById('btnToggleMusic').textContent = 'Âm nhạc: Bật';
+}
+document.getElementById('btnToggleMusic').addEventListener('click', ()=>{
+  musicOn = !musicOn; if(!musicOn){ sao.pause(); dan.pause(); document.getElementById('btnToggleMusic').textContent = 'Âm nhạc: Tắt'; } else { document.getElementById('btnToggleMusic').textContent = 'Âm nhạc: Bật'; }
+});
+
+// Load intro saved
+const savedIntro = localStorage.getItem('giaPhaIntro'); if(savedIntro) document.getElementById('introText').innerHTML = savedIntro;
+
+// helpers
+function renderList(){ const parentSel = document.getElementById('memberParent'); parentSel.innerHTML = '<option value="">Không/Root</option>'; Object.values(members).sort((a,b)=> (a.name||'').localeCompare(b.name||'')).forEach(m=>{ const opt = document.createElement('option'); opt.value = m.id; opt.textContent = m.name; parentSel.appendChild(opt); }); }
+function load(){ const raw = localStorage.getItem(STORAGE_KEY); if(raw) members = JSON.parse(raw); else members = {}; }
+function rebuildChildren(){ Object.values(members).forEach(m=>m.children=[]); Object.values(members).forEach(m=>{ if(m.parent){ const p = members[m.parent]; if(p) p.children = p.children||[], p.children.push(m.id); } }); }
+
+// sample data button
+document.getElementById('btnLoadSample').addEventListener('click', ()=>{
+  if(confirm('Tải dữ liệu mẫu 3 đời?')){
+    members = {
+      'g1': {id:'g1', name:'Kiều Tổ', birth:'1935-01-01', parent:'', notes:'Tổ'},
+      'g2': {id:'g2', name:'Kiều Cha', birth:'1960-06-06', parent:'g1', notes:'Con'},
+      'g3': {id:'g3', name:'Kiều Con', birth:'1990-03-03', parent:'g2', notes:'Cháu'}
+    }; save(); renderList(); renderTree();
+    alert('Đã nạp dữ liệu mẫu'); 
+  }
+});
+
+// init view
+load(); rebuildChildren(); renderList(); renderTree();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Gia Pha Họ Kiều - Portable build package\n\nTo build portable exe on Windows:\n1) Install Node.js 18+\n2) Unzip this package\n3) npm install\n4) npm install --save-dev electron electron-builder\n5) npm run dist\nThe portable exe will be in the 'dist' folder.

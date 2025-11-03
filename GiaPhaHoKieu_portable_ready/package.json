@@ -1,0 +1,29 @@
+{
+  "name": "gia-pha-ho-kieu-portable",
+  "version": "1.0.0",
+  "description": "Gia Phả Họ Kiều - Portable build ready",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64 --portable"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^23.0.0"
+  },
+  "build": {
+    "appId": "com.giapha.hokieu",
+    "productName": "Gia Phả Họ Kiều",
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "assets/**"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
